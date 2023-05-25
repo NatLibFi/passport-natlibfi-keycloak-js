@@ -44,22 +44,12 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
 
   throw new Error('No configuration for passport strategies');
 
-  function validateKeycloakOpts(keycloakOpts) {
-    const {publicKey, algorithms, audience, issuer} = keycloakOpts;
-
-    if (!publicKey) {
+  function validateKeycloakOpts({publicKey = false, algorithms = false, audience = false, issuer = false}) {
+    if (!publicKey || !algorithms || !audience || !issuer) {
       return false;
     }
 
-    if (!algorithms || !Array.isArray(algorithms) || algorithms.length === 0) {
-      return false;
-    }
-
-    if (!audience) {
-      return false;
-    }
-
-    if (!issuer) {
+    if (!Array.isArray(algorithms) || algorithms.length === 0) {
       return false;
     }
 
