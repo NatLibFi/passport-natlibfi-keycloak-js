@@ -16,7 +16,6 @@
 */
 
 import {expect} from 'chai';
-import {generateKeyPairSync} from 'crypto';
 
 import {generatePassportMiddlewares} from '.';
 
@@ -42,9 +41,8 @@ describe('generatePassportMiddlewares', () => {
   });
 
   it('Should initialize with Keycloak config', () => {
-    const {publicKey} = generateKeyPairSync('rsa', {modulusLength: 2048, publicKeyEncoding: {type: 'spki', format: 'pem'}});
     const keycloakOpts = {
-      publicKey,
+      jwksUrl: 'foo.bar.baz',
       algorithms: ['RS256'],
       audience: 'foo.audience',
       issuer: 'foo.issuer'
@@ -56,9 +54,8 @@ describe('generatePassportMiddlewares', () => {
   });
 
   it('Should throw error if initializing with invalid Keycloak config', () => {
-    const {publicKey} = generateKeyPairSync('rsa', {modulusLength: 2048, publicKeyEncoding: {type: 'spki', format: 'pem'}});
     const keycloakOpts = {
-      publicKey,
+      jwksUrl: 'foo.bar.baz',
       algorithms: ['RS256'],
       audience: 'foo.audience',
       issuer: 'foo.issuer'

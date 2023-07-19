@@ -44,8 +44,8 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
 
   throw new Error('No configuration for passport strategies');
 
-  function validateKeycloakOpts({publicKey = false, algorithms = false, audience = false, issuer = false}) {
-    if (!publicKey || !algorithms || !audience || !issuer) {
+  function validateKeycloakOpts({algorithms = false, audience = false, issuer = false, jwksUrl = false}) {
+    if (!algorithms || !audience || !issuer || !jwksUrl) {
       return false;
     }
 
