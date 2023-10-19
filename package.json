@@ -14,7 +14,7 @@
     "url": "git@github.com:natlibfi/passport-natlibfi-keycloak-js.git"
   },
   "license": "MIT",
-  "version": "2.0.1-alpha.5",
+  "version": "2.0.1-alpha.6",
   "main": "./dist/index.js",
   "engines": {
     "node": ">=18"
@@ -35,7 +35,7 @@
   "dependencies": {
     "@natlibfi/melinda-backend-commons": "^2.2.1",
     "@natlibfi/melinda-commons": "^13.0.6",
-    "@natlibfi/passport-keycloak": "^2.0.2",
+    "@natlibfi/passport-keycloak": "^2.0.3-alpha.3",
     "passport": "^0.6.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
