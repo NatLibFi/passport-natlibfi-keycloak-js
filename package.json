@@ -24,13 +24,16 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "lint": "eslint src",
-    "lint:dev": "eslint --fix src",
-    "test:base": "cross-env NODE_ENV=test nyc mocha --require @babel/register",
-    "test": "npm run lint && npm run test:base -- src/**/*.spec.js",
     "build": "babel src --source-maps --copy-files --delete-dir-on-start --out-dir=dist",
-    "coverage": "nyc --reporter=text npm run test:base -- src/**/*.spec.js",
-    "watch": "cross-env NODE_ENV=test chokidar src -c 'npm test'"
+    "lint": "eslint ./src",
+    "lint:dev": "eslint --fix ./src",
+    "test:base": "cross-env NODE_ENV=test nyc mocha --package ./package.json",
+    "test:dev": "npm run lint:dev && cross-env NODE_ENV=test nyc mocha --package ./package.json",
+    "test": "npm run lint && npm run test:base",
+    "coverage": "nyc --reporter=text npm run test:base",
+    "watch": "cross-env NODE_ENV=test chokidar src -c 'npm test'",
+    "dev": "nodemon",
+    "dev:debug": "cross-env LOG_LEVEL=debug DEBUG=@natlibfi/* NODE_ENV=test nodemon"
   },
   "dependencies": {
     "@natlibfi/melinda-backend-commons": "^2.2.4",
@@ -54,7 +57,8 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "nodemon": "^3.0.2"
   },
   "eslintConfig": {
     "extends": "@natlibfi/melinda-backend"
@@ -76,15 +80,33 @@
       }
     }
   },
-  "nyc": {
-    "exclude": [
-      "**/*.spec.js"
-    ],
-    "reporter": [
-      "lcov"
+  "mocha": {
+    "spec": [
+      "src/*.spec.js",
+      "src/**/*.spec.js"
     ],
     "require": [
       "@babel/register"
+    ],
+    "inline-diffs": true,
+    "maxDiffSize": 25000,
+    "bail": true,
+    "exit": true
+  },
+  "nodemonConfig": {
+    "exec": "npm run test:dev",
+    "watch": [
+      "src/*",
+      "test-fixtures/*"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "src/*.spec.js",
+      "src/**/*.spec.js"
+    ],
+    "reporter": [
+      "text"
     ],
     "sourceMap": false,
     "instrument": false,
