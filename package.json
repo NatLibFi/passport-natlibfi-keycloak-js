@@ -38,7 +38,7 @@
   "dependencies": {
     "@natlibfi/melinda-backend-commons": "^2.2.4",
     "@natlibfi/melinda-commons": "^13.0.9",
-    "@natlibfi/passport-keycloak": "^2.0.3-alpha.6",
+    "@natlibfi/passport-keycloak": "^2.0.4-alpha.3",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
@@ -57,8 +57,8 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.56.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "nyc": "^15.1.0"
   },
   "eslintConfig": {
     "extends": "@natlibfi/melinda-backend"
