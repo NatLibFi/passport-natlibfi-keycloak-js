@@ -68,4 +68,18 @@ describe('generatePassportMiddlewares', () => {
     });
 
   });
+
+  it('Should support enabling service token option for Keycloak config', () => {
+    const keycloakOpts = {
+      jwksUrl: 'foo.bar.baz',
+      algorithms: ['RS256'],
+      audience: 'foo.audience',
+      issuer: 'foo.issuer',
+      serviceAuthHeader: 'customHeader'
+    };
+
+    const passportMiddlewares = generatePassportMiddlewares({keycloakOpts});
+    expect(passportMiddlewares).to.be.an('object');
+    expect(passportMiddlewares).to.have.property('token');
+  });
 });
