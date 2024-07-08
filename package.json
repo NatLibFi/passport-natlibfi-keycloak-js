@@ -14,7 +14,7 @@
     "url": "git@github.com:natlibfi/passport-natlibfi-keycloak-js.git"
   },
   "license": "MIT",
-  "version": "2.1.0",
+  "version": "2.1.1-alpha.1",
   "main": "./dist/index.js",
   "engines": {
     "node": ">=18"
@@ -36,8 +36,8 @@
     "dev:debug": "cross-env LOG_LEVEL=debug DEBUG=@natlibfi/* NODE_ENV=test nodemon"
   },
   "dependencies": {
-    "@natlibfi/melinda-backend-commons": "^2.2.6",
-    "@natlibfi/melinda-commons": "^13.0.14",
+    "@natlibfi/melinda-backend-commons": "^2.3.0",
+    "@natlibfi/melinda-commons": "^13.0.15",
     "@natlibfi/passport-keycloak": "^2.1.0",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
@@ -45,19 +45,19 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.24.5",
-    "@babel/core": "^7.24.5",
-    "@babel/node": "^7.23.9",
-    "@babel/preset-env": "^7.24.5",
-    "@babel/register": "^7.23.7",
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/node": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/register": "^7.24.6",
     "@natlibfi/eslint-config-melinda-backend": "^3.0.5",
     "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.4.1",
     "chokidar-cli": "^3.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
-    "mocha": "^10.4.0",
-    "nodemon": "^3.1.0",
+    "mocha": "^10.6.0",
+    "nodemon": "^3.1.4",
     "nyc": "^15.1.0"
   },
   "eslintConfig": {
