@@ -44,13 +44,17 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
 
   throw new Error('No configuration for passport strategies');
 
-  function validateKeycloakOpts({algorithms = false, audience = false, issuer = false, jwksUrl = false}) {
+  function validateKeycloakOpts({algorithms = false, audience = false, issuer = false, jwksUrl = false, cookieName = false, cookieEncryptSecretKey = false, cookieEncryptSecretIV = false}) {
     if (!algorithms || !audience || !issuer || !jwksUrl) {
       return false;
     }
 
     if (!Array.isArray(algorithms) || algorithms.length === 0) {
       return false;
+    }
+
+    if (cookieName) {
+      return cookieEncryptSecretIV && cookieEncryptSecretKey;
     }
 
     return true;
@@ -62,7 +66,8 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
     logger.info('Enabling Keycloak passport strategy');
 
     return {
-      token: passport.authenticate('keycloak-jwt-bearer', {session: false})
+      token: passport.authenticate('keycloak-jwt-bearer', {session: false}),
+      cookie: keycloakOpts.cookieName ? passport.authenticate('keycloak-jwt-cookie', {session: false}) : null
     };
   }
 
