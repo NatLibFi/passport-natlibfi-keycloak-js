@@ -24,7 +24,7 @@ import {Strategy as BearerStrategy} from 'passport-http-bearer';
 
 import {createLogger} from '@natlibfi/melinda-backend-commons';
 import {clone} from '@natlibfi/melinda-commons';
-import {KeycloakStrategy} from '@natlibfi/passport-keycloak';
+import {KeycloakStrategy, KeycloakCookieStrategy} from '@natlibfi/passport-keycloak';
 
 /**
  * Derived from passport-melinda-crowd-js src/index.js (https://github.com/NatLibFi/passport-melinda-crowd-js/blob/master/src/index.js)
@@ -44,7 +44,7 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
 
   throw new Error('No configuration for passport strategies');
 
-  function validateKeycloakOpts({algorithms = false, audience = false, issuer = false, jwksUrl = false}) {
+  function validateKeycloakOpts({algorithms = false, audience = false, issuer = false, jwksUrl = false, cookieName = false, cookieEncryptSecretKey = false, cookieEncryptSecretIV = false}) {
     if (!algorithms || !audience || !issuer || !jwksUrl) {
       return false;
     }
@@ -53,14 +53,25 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
       return false;
     }
 
+    if (cookieName) {
+      return cookieEncryptSecretIV && cookieEncryptSecretKey;
+    }
+
     return true;
   }
 
   function initKeycloakMiddleware(keycloakOpts) {
+    // eslint-disable-next-line functional/no-conditional-statements
+    if (keycloakOpts.cookieName) {
+      passport.use(new KeycloakCookieStrategy(keycloakOpts));
+      logger.info('Enabling KeycloakCookie passport strategy');
+      return {
+        cookie: passport.authenticate('keycloak-jwt-cookie', {session: false})
+      };
+    }
+
     passport.use(new KeycloakStrategy(keycloakOpts));
-
-    logger.info('Enabling Keycloak passport strategy');
-
+    logger.info('Enabling Keycloak bearer passport strategy');
     return {
       token: passport.authenticate('keycloak-jwt-bearer', {session: false})
     };
