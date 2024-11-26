@@ -18,12 +18,11 @@
 import {readFileSync} from 'fs';
 import {v4 as uuid} from 'uuid';
 
+import createDebugLogger from 'debug';
 import passport from 'passport';
 import {BasicStrategy} from 'passport-http';
 import {Strategy as BearerStrategy} from 'passport-http-bearer';
 
-import {createLogger} from '@natlibfi/melinda-backend-commons';
-import {clone} from '@natlibfi/melinda-commons';
 import {KeycloakStrategy, KeycloakCookieStrategy} from '@natlibfi/passport-keycloak';
 
 /**
@@ -31,8 +30,7 @@ import {KeycloakStrategy, KeycloakCookieStrategy} from '@natlibfi/passport-keycl
  *   - Copyright (C) 2018-2020 University of Helsinki (The National Library of Finland)
  */
 export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
-  const logger = createLogger();
-
+  const debug = createDebugLogger('@natlibfi/passport-natlibfi-keycloak:generatePassportMiddlewares');
 
   if (keycloakOpts && typeof keycloakOpts === 'object' && validateKeycloakOpts(keycloakOpts)) {
     return initKeycloakMiddleware(keycloakOpts);
@@ -64,14 +62,14 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
     // eslint-disable-next-line functional/no-conditional-statements
     if (keycloakOpts.cookieName) {
       passport.use(new KeycloakCookieStrategy(keycloakOpts));
-      logger.info('Enabling KeycloakCookie passport strategy');
+      debug('enabling KeycloakCookieStrategy strategy');
       return {
         cookie: passport.authenticate('keycloak-jwt-cookie', {session: false})
       };
     }
 
     passport.use(new KeycloakStrategy(keycloakOpts));
-    logger.info('Enabling Keycloak bearer passport strategy');
+    debug('enabling KeycloakStrategy (bearer) passport strategy');
     return {
       token: passport.authenticate('keycloak-jwt-bearer', {session: false})
     };
@@ -84,7 +82,7 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
     passport.use(new BasicStrategy(localBasicCallback));
     passport.use(new BearerStrategy(localBearerCallback));
 
-    logger.info('Enabling local passport strategy');
+    debug('enabling local passport strategy');
 
     return {
       credentials: passport.authenticate('basic', {session: false}),
@@ -136,7 +134,7 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
         return newToken;
 
         function removePassword(userData) {
-          return Object.keys(clone(userData)).filter(k => k !== 'password').reduce((acc, key) => ({...acc, [key]: userData[key]}), {});
+          return Object.keys(deepCopyObject(userData)).filter(k => k !== 'password').reduce((acc, key) => ({...acc, [key]: userData[key]}), {});
         }
       }
     }
@@ -152,4 +150,9 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
       done(null, false);
     }
   }
+}
+
+// See https://developer.mozilla.org/en-US/docs/Glossary/Deep_copy
+function deepCopyObject(o) {
+  return JSON.parse(JSON.stringify(o));
 }
