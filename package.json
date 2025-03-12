@@ -38,7 +38,7 @@
   "dependencies": {
     "@natlibfi/melinda-backend-commons": "^2.3.0",
     "@natlibfi/melinda-commons": "^13.0.15",
-    "@natlibfi/passport-keycloak": "^2.1.5",
+    "@natlibfi/passport-keycloak": "^2.1.6",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
