@@ -14,7 +14,7 @@
     "url": "git@github.com:natlibfi/passport-natlibfi-keycloak-js.git"
   },
   "license": "MIT",
-  "version": "2.1.6",
+  "version": "2.2.2",
   "main": "./dist/index.js",
   "engines": {
     "node": ">=18"
@@ -36,9 +36,8 @@
     "dev:debug": "cross-env LOG_LEVEL=debug DEBUG=@natlibfi/* NODE_ENV=test nodemon"
   },
   "dependencies": {
-    "@natlibfi/melinda-backend-commons": "^2.3.0",
-    "@natlibfi/melinda-commons": "^13.0.15",
-    "@natlibfi/passport-keycloak": "^2.1.6",
+    "@natlibfi/passport-keycloak": "^2.2.2",
+    "debug": "^4.3.7",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",

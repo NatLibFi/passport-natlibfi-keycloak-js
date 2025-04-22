@@ -82,4 +82,21 @@ describe('generatePassportMiddlewares', () => {
     expect(passportMiddlewares).to.be.an('object');
     expect(passportMiddlewares).to.have.property('token');
   });
+
+  it('Should support enabling cookie strategy for Keycloak', () => {
+    const keycloakOpts = {
+      jwksUrl: 'foo.bar.baz',
+      algorithms: ['RS256'],
+      audience: 'foo.audience',
+      issuer: 'foo.issuer',
+      serviceAuthHeader: 'customHeader',
+      cookieName: 'foo',
+      cookieEncryptSecretIV: '1234',
+      cookieEncryptSecretKey: '1234'
+    };
+
+    const passportMiddlewares = generatePassportMiddlewares({keycloakOpts});
+    expect(passportMiddlewares).to.be.an('object');
+    expect(passportMiddlewares).to.have.property('cookie');
+  });
 });
