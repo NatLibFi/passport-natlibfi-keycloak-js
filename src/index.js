@@ -59,7 +59,6 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
   }
 
   function initKeycloakMiddleware(keycloakOpts) {
-    // eslint-disable-next-line functional/no-conditional-statements
     if (keycloakOpts.cookieName) {
       passport.use(new KeycloakCookieStrategy(keycloakOpts));
       debug('enabling KeycloakCookieStrategy strategy');
@@ -100,13 +99,12 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
       function parse(str) {
         try {
           return JSON.parse(str);
-        } catch (err) {
+        } catch (err) { // eslint-disable-line no-unused-vars
           throw new Error('Could not parse local users');
         }
       }
     }
 
-    /* istanbul ignore next */
     function localBasicCallback(reqUsername, reqPassword, done) {
       const user = users.find(({id, password}) => reqUsername === id && reqPassword === password);
 
@@ -129,7 +127,7 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
         }
 
         const newToken = uuid().replace(/-/gu, '');
-        localSessions[newToken] = removePassword(user); // eslint-disable-line functional/immutable-data
+        localSessions[newToken] = removePassword(user);
 
         return newToken;
 

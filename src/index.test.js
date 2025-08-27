@@ -15,9 +15,9 @@
 *
 */
 
-import {expect} from 'chai';
-
-import {generatePassportMiddlewares} from '.';
+import assert from 'node:assert';
+import {describe, it} from 'node:test';
+import {generatePassportMiddlewares} from './index.js';
 
 describe('generatePassportMiddlewares', () => {
   it('Should initialize with local config from file', () => {
@@ -25,9 +25,9 @@ describe('generatePassportMiddlewares', () => {
       localUsers: 'file://test-fixtures/testPassportLocalUsers.json'
     });
 
-    expect(passportMiddlewares).to.be.an('object');
-    expect(passportMiddlewares).to.have.property('credentials');
-    expect(passportMiddlewares).to.have.property('token');
+    assert.equal(typeof passportMiddlewares === 'object', true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'credentials'), true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'token'), true);
   });
 
   it('Should initialize with local config from stringified JSON', () => {
@@ -35,9 +35,9 @@ describe('generatePassportMiddlewares', () => {
       localUsers: '[{"id": "foo","password": "foo"}]'
     });
 
-    expect(passportMiddlewares).to.be.an('object');
-    expect(passportMiddlewares).to.have.property('credentials');
-    expect(passportMiddlewares).to.have.property('token');
+    assert.equal(typeof passportMiddlewares === 'object', true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'credentials'), true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'token'), true);
   });
 
   it('Should initialize with Keycloak config', () => {
@@ -49,8 +49,8 @@ describe('generatePassportMiddlewares', () => {
     };
 
     const passportMiddlewares = generatePassportMiddlewares({keycloakOpts});
-    expect(passportMiddlewares).to.be.an('object');
-    expect(passportMiddlewares).to.have.property('token');
+    assert.equal(typeof passportMiddlewares === 'object', true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'token'), true);
   });
 
   it('Should throw error if initializing with invalid Keycloak config', () => {
@@ -63,8 +63,8 @@ describe('generatePassportMiddlewares', () => {
 
     Object.keys(keycloakOpts).forEach(key => {
       const optsCopy = {...keycloakOpts};
-      delete optsCopy[key]; // eslint-disable-line functional/immutable-data
-      expect(() => generatePassportMiddlewares({keycloakOpts: optsCopy})).to.throw();
+      delete optsCopy[key];
+      assert.throws(() => generatePassportMiddlewares({keycloakOpts: optsCopy}), {message: 'No configuration for passport strategies'});
     });
 
   });
@@ -79,8 +79,8 @@ describe('generatePassportMiddlewares', () => {
     };
 
     const passportMiddlewares = generatePassportMiddlewares({keycloakOpts});
-    expect(passportMiddlewares).to.be.an('object');
-    expect(passportMiddlewares).to.have.property('token');
+    assert.equal(typeof passportMiddlewares === 'object', true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'token'), true);
   });
 
   it('Should support enabling cookie strategy for Keycloak', () => {
@@ -96,7 +96,7 @@ describe('generatePassportMiddlewares', () => {
     };
 
     const passportMiddlewares = generatePassportMiddlewares({keycloakOpts});
-    expect(passportMiddlewares).to.be.an('object');
-    expect(passportMiddlewares).to.have.property('cookie');
+    assert.equal(typeof passportMiddlewares === 'object', true);
+    assert.equal(Object.hasOwn(passportMiddlewares, 'cookie'), true);
   });
 });
