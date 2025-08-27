@@ -25,7 +25,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "esbuild src/*.js --sourcemap --platform=node --main-fields=main --outdir=dist --allow-overwrite --analyze",
+    "build": "esbuild \"src/**/*.js\" --sourcemap --platform=node --outdir=dist --analyze",
     "lint": "eslint ./src",
     "lint:dev": "eslint --fix ./src",
     "test:base": "node --test --experimental-test-coverage --test-reporter=spec './src/*.test.js'",
@@ -35,7 +35,7 @@
     "dev:debug": "cross-env LOG_LEVEL=debug DEBUG=@natlibfi/* NODE_ENV=test npm run watch:test"
   },
   "dependencies": {
-    "@natlibfi/passport-keycloak": "^3.0.0-alpha.3",
+    "@natlibfi/passport-keycloak": "^3.0.0-alpha.4",
     "debug": "^4.4.1",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
