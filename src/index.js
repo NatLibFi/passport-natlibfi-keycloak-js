@@ -37,7 +37,12 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
     return initKeycloakMiddleware(keycloakOpts);
   }
 
-  if (typeof localUsers === 'string') {
+  // Local users are only allowed for development purposes and automated tests
+  const isDevelopmentEnvironment = process.env.NODE_ENV === 'development';
+  const isTestEnvironment = process.env.NODE_ENV === 'test';
+  const allowLocalUsers = isDevelopmentEnvironment || isTestEnvironment;
+
+  if (allowLocalUsers && typeof localUsers === 'string') {
     return initLocalMiddlewares(localUsers);
   }
 
