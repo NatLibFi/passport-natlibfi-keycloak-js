@@ -29,6 +29,7 @@ import {KeycloakStrategy, KeycloakCookieStrategy} from '@natlibfi/passport-keycl
  * Derived from passport-melinda-crowd-js src/index.js (https://github.com/NatLibFi/passport-melinda-crowd-js/blob/master/src/index.js)
  *   - Copyright (C) 2018-2020 University of Helsinki (The National Library of Finland)
  */
+// eslint-disable-next-line max-lines-per-function
 export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
   const debug = createDebugLogger('@natlibfi/passport-natlibfi-keycloak:generatePassportMiddlewares');
 
@@ -36,7 +37,12 @@ export function generatePassportMiddlewares({keycloakOpts, localUsers}) {
     return initKeycloakMiddleware(keycloakOpts);
   }
 
-  if (typeof localUsers === 'string') {
+  // Local users are only allowed for development purposes and automated tests
+  const isDevelopmentEnvironment = process.env.NODE_ENV === 'development';
+  const isTestEnvironment = process.env.NODE_ENV === 'test';
+  const allowLocalUsers = isDevelopmentEnvironment || isTestEnvironment;
+
+  if (allowLocalUsers && typeof localUsers === 'string') {
     return initLocalMiddlewares(localUsers);
   }
 

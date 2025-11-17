@@ -28,7 +28,7 @@
     "build:analyze": "npm run build -- --analyze",
     "lint": "eslint ./src",
     "lint:dev": "eslint --fix ./src",
-    "test:base": "node --test",
+    "test:base": "NODE_ENV=test node --test",
     "test:report": "npm run test:base -- --experimental-test-coverage --test-reporter=spec",
     "test": "npm run lint && npm run test:base",
     "watch:test": "cross-env NODE_ENV=test node --watch --test",
