@@ -36,16 +36,16 @@
     "dev:debug": "cross-env LOG_LEVEL=debug DEBUG=@natlibfi/* NODE_ENV=test npm run watch:test"
   },
   "dependencies": {
-    "@natlibfi/passport-keycloak": "^3.0.1",
-    "debug": "^4.4.1",
+    "@natlibfi/passport-keycloak": "^3.0.3-alpha.1",
+    "debug": "^4.4.3",
     "passport": "^0.7.0",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "esbuild": "^0.25.9",
-    "eslint": "^9.34.0"
+    "cross-env": "^10.1.0",
+    "esbuild": "^0.27.0",
+    "eslint": "^9.39.1"
   }
 }
